@@ -1,12 +1,15 @@
 import React from "react";
 import Form from "../components/Form/Form";
 import ListItem from "../components/ListItem/ListItem";
+import { useSelector, useDispatch } from "react-redux";
+import { decrement, increment } from "../redux/slices/todoSlice";
 
 const App = () => {
 	const [tasks, setTasks] = React.useState([
 		{id: +new Date(), text: 'hello world', done: false}
 	]);
-	const [value, setValue] = React.useState('');
+	const count = useSelector((state) => state.counter.count);
+  	const dispatch = useDispatch();
 
 	const addValue = (event) => {
 		event.preventDefault();
@@ -37,13 +40,26 @@ const App = () => {
 
     return (
         <div className="wrapper-card">
-			<Form value={value} setValue={setValue} addValue={addValue}/>
+			<button
+          aria-label="Increment value"
+          onClick={() => dispatch(increment())}
+        >
+          Increment
+        </button>
+        <span>{count}</span>
+        <button
+          aria-label="Decrement value"
+          onClick={() => dispatch(decrement())}
+        >
+          Decrement
+        </button>
+			{/* <Form value={value} setValue={setValue} addValue={addValue}/>
 
 			<ul className="todo-list">
 				{tasks.map((task) => {
 					return <ListItem key={task.id} task={task} removeTask={removeTask} ahmadDone={ahmadDone}/>
 				})}
-			</ul>
+			</ul> */}
 		</div>
     );
 }
